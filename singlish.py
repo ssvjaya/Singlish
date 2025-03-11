@@ -1,0 +1,156 @@
+from typing import Dict
+
+# Create a dictionary to map English letters and combinations to Sinhala letters
+# Make this a module-level constant for better performance
+TRANSLITERATION_MAP: Dict[str, str] = {
+    # Basic vowels (අ, ආ, ඇ, ඈ, ඉ, ඊ, උ, ඌ, ඍ, ඎ, එ, ඒ, ඓ, ඔ, ඕ, ඖ)
+    'x': 'ං', 'a': 'අ', 'aa': 'ආ', 'A': 'ඇ', 'Aa': 'ඈ', 'i': 'ඉ', 'ii': 'ඊ', 'u': 'උ', 'uu': 'ඌ', '/R': 'ඍ', '/Rr': 'ඎ', 'e': 'එ', 'ea': 'ඒ', 'I': 'ඓ', 'o': 'ඔ', 'oe': 'ඕ', 'au': 'ඖ', 'a/n': 'අං', 'a/h': 'අඃ',
+
+    #Combinations for all the letters
+    #k
+    'k': 'ක්', 'ka': 'ක', 'kaa': 'කා', 'kA': 'කැ', 'kAa': 'කෑ', 'ki': 'කි', 'kii': 'කී', 'ku': 'කු', 'kuu': 'කූ', 'k/R': 'කෘ', 'k/Rr': 'කෲ', 'ke': 'කෙ', 'kea': 'කේ', 'kI': 'කෛ', 'ko': 'කො', 'koe': 'කෝ',
+    'kau': 'කෞ', 'ka/n': 'කං', 'ka/h': 'කඃ', 'kra': 'ක්‍ර', 'kraa': 'ක්‍රා', 'krA': 'ක්‍රැ', 'krAa': 'ක්‍රෑ', 'kri': 'ක්‍රි', 'krii': 'ක්‍රී', 'kru': 'කෘ', 'kruu': 'කෲ', 'kre': 'ක්‍රෙ', 'krea': 'ක්‍රේ', 'kro': 'ක්‍රො', 'kroe': 'ක්‍රෝ',
+    'K': 'ඛ්', 'Ka': 'ඛ', 'Kaa': 'ඛා', 'KA': 'ඛැ', 'KAa': 'ඛෑ', 'Ki': 'ඛි', 'Kii': 'ඛී', 'Ku': 'ඛු', 'Kuu': 'ඛූ', 'K/R': 'ඛෘ', 'K/Rr': 'ඛෲ', 'Ke': 'ඛෙ', 'Kea': 'ඛේ', 'KI': 'ඛෛ', 'Ko': 'ඛො', 'Koe': 'ඛෝ',
+    'Kau': 'ඛෞ', 'Ka/n': 'ඛං', 'Ka/h': 'ඛඃ', 'Kra': 'ඛ්‍ර', 'Kraa': 'ඛ්‍රා', 'KrA': 'ඛ්‍රැ', 'KrAa': 'ඛ්‍රෑ', 'Kri': 'ඛ්‍රි', 'Krii': 'ඛ්‍රී', 'Kru': 'ඛෘ', 'Kruu': 'ඛෲ', 'Kre': 'ඛ්‍රෙ', 'Krea': 'ඛ්‍රේ', 'Kro': 'ඛ්‍රො', 'Kroe': 'ඛ්‍රෝ',
+    #g
+    'g': 'ග්', 'ga': 'ග', 'gaa': 'ගා', 'gA': 'ගැ', 'gAa': 'ගෑ', 'gi': 'ගි', 'gii': 'ගී', 'gu': 'ගු', 'guu': 'ගූ', 'g/R': 'ගෘ', 'g/Rr': 'ගෲ', 'ge': 'ගෙ', 'gea': 'ගේ', 'gI': 'ගෛ', 'go': 'ගො', 'goe': 'ගෝ',
+    'gau': 'ගෞ', 'ga/n': 'ගං', 'ga/h': 'ගඃ', 'gra': 'ග්‍ර', 'graa': 'ග්‍රා', 'grA': 'ග්‍රැ', 'grAa': 'ග්‍රෑ', 'gri': 'ග්‍රි', 'grii': 'ග්‍රී', 'gru': 'ගෘ', 'gruu': 'ගෲ', 'gre': 'ග්‍රෙ', 'grea': 'ග්‍රේ', 'gro': 'ග්‍රො', 'groe': 'ග්‍රෝ',
+    'G': 'ඝ්', 'Ga': 'ඝ', 'Gaa': 'ඝා', 'GA': 'ඝැ', 'GAa': 'ඝෑ', 'Gi': 'ඝි', 'Gii': 'ඝී', 'Gu': 'ඝු', 'Guu': 'ඝූ', 'G/R': 'ඝෘ', 'G/Rr': 'ඝෲ', 'Ge': 'ඝෙ', 'Gea': 'ඝේ', 'GI': 'ඝෛ', 'Go': 'ඝො', 'Goe': 'ඝෝ',
+    'Gau': 'ඝෞ', 'Ga/n': 'ඝං', 'Ga/h': 'ඝඃ', 'Gra': 'ඝ්‍ර', 'Graa': 'ඝ්‍රා', 'GrA': 'ඝ්‍රැ', 'GrAa': 'ඝ්‍රෑ', 'Gri': 'ඝ්‍රි', 'Grii': 'ඝ්‍රී', 'Gru': 'ඝෘ', 'Gruu': 'ඝෲ', 'Gre': 'ඝ්‍රෙ', 'Grea': 'ඝ්‍රේ', 'Gro': 'ඝ්‍රො', 'Groe': 'ඝ්‍රෝ',
+    #ch
+    'ch': 'ච්', 'cha': 'ච', 'chaa': 'චා', 'chA': 'චැ', 'chAa': 'චෑ', 'chi': 'චි', 'chii': 'චී', 'chu': 'චු', 'chuu': 'චූ', 'ch/R': 'චෘ', 'ch/Rr': 'චෲ', 'che': 'චෙ', 'chea': 'චේ', 'chI': 'චෛ', 'cho': 'චො', 'choe': 'චෝ',
+    'chau': 'චෞ', 'cha/n': 'චං', 'cha/h': 'චඃ', 'chra': 'ච්‍ර', 'chraa': 'ච්‍රා', 'chrA': 'ච්‍රැ', 'chrAa': 'ච්‍රෑ', 'chri': 'ච්‍රි', 'chrii': 'ච්‍රී', 'chru': 'චෘ', 'chruu': 'චෲ', 'chre': 'ච්‍රෙ', 'chrea': 'ච්‍රේ', 'chro': 'ච්‍රො', 'chroe': 'ච්‍රෝ',
+    'Ch': 'ඡ්', 'Cha': 'ඡ', 'Chaa': 'ඡා', 'ChA': 'ඡැ', 'ChAa': 'ඡෑ', 'Chi': 'ඡි', 'Chii': 'ඡී', 'Chu': 'ඡු', 'Chuu': 'ඡූ', 'Ch/R': 'ඡෘ', 'Ch/Rr': 'ඡෲ', 'Che': 'ඡෙ', 'Chea': 'ඡේ', 'ChI': 'ඡෛ', 'Cho': 'ඡො', 'Choe': 'ඡෝ',
+    'Chau': 'ඡෞ', 'Cha/n': 'ඡං', 'Cha/h': 'ඡඃ', 'Chra': 'ඡ්‍ර', 'Chraa': 'ඡ්‍රා', 'ChrA': 'ඡ්‍රැ', 'ChrAa': 'ඡ්‍රෑ', 'Chri': 'ඡ්‍රි', 'Chrii': 'ඡ්‍රී', 'Chru': 'ඡෘ', 'Chruu': 'ඡෲ', 'Chre': 'ඡ්‍රෙ', 'Chrea': 'ඡ්‍රේ', 'Chro': 'ඡ්‍රො', 'Chroe': 'ඡ්‍රෝ',
+    #j
+    'j': 'ජ්', 'ja': 'ජ', 'jaa': 'ජා', 'jA': 'ජැ', 'jAa': 'ජෑ', 'ji': 'ජි', 'jii': 'ජී', 'ju': 'ජු', 'juu': 'ජූ', 'j/R': 'ජෘ', 'j/Rr': 'ජෲ', 'je': 'ජෙ', 'jea': 'ජේ', 'jI': 'ජෛ', 'jo': 'ජො', 'joe': 'ජෝ',
+    'jau': 'ජෞ', 'ja/n': 'ජං', 'ja/h': 'ජඃ', 'jra': 'ජ්‍ර', 'jraa': 'ජ්‍රා', 'jrA': 'ජ්‍රැ', 'jrAa': 'ජ්‍රෑ', 'jri': 'ජ්‍රි', 'jrii': 'ජ්‍රී', 'jru': 'ජෘ', 'jruu': 'ජෲ', 'jre': 'ජ්‍රෙ', 'jrea': 'ජ්‍රේ', 'jro': 'ජ්‍රො', 'jroe': 'ජ්‍රෝ',
+    'q': 'ඣ්', 'qa': 'ඣ', 'qaa': 'ඣා', 'qA': 'ඣැ', 'qAa': 'ඣෑ', 'qi': 'ඣි', 'qii': 'ඣී', 'qu': 'ඣු', 'quu': 'ඣූ', 'q/R': 'ඣෘ', 'q/Rr': 'ඣෲ', 'qe': 'ඣෙ', 'qea': 'ඣේ', 'qI': 'ඣෛ', 'qo': 'ඣො', 'qoe': 'ඣෝ',
+    'qau': 'ඣෞ', 'qa/n': 'ඣං', 'qa/h': 'ඣඃ', 'qra': 'ඣ්‍ර', 'qraa': 'ඣ්‍රා', 'qrA': 'ඣ්‍රැ', 'qrAa': 'ඣ්‍රෑ', 'qri': 'ඣ්‍රි', 'qrii': 'ඣ්‍රී', 'qru': 'ඣෘ', 'qruu': 'ඣෲ', 'qre': 'ඣ්‍රෙ', 'qrea': 'ඣ්‍රේ', 'qro': 'ඣ්‍රො', 'qroe': 'ඣ්‍රෝ',
+    #t
+    't': 'ට්', 'ta': 'ට', 'taa': 'ටා', 'tA': 'ටැ', 'tAa': 'ටෑ', 'ti': 'ටි', 'tii': 'ටී', 'tu': 'ටු', 'tuu': 'ටූ', 't/R': 'ටෘ', 't/Rr': 'ටෲ', 'te': 'ටෙ', 'tea': 'ටේ', 'tI': 'ටෛ', 'to': 'ටො', 'toe': 'ටෝ',
+    'tau': 'ටෞ', 'ta/n': 'ටං', 'ta/h': 'ටඃ', 'tra': 'ට්‍ර', 'traa': 'ට්‍රා', 'trA': 'ට්‍රැ', 'trAa': 'ට්‍රෑ', 'tri': 'ට්‍රි', 'trii': 'ට්‍රී', 'tru': 'ටෘ', 'truu': 'ටෲ', 'tre': 'ට්‍රෙ', 'trea': 'ට්‍රේ', 'tro': 'ට්‍රො', 'troe': 'ට්‍රෝ',
+    'T': 'ඨ්', 'Ta': 'ඨ', 'Taa': 'ඨා', 'TA': 'ඨැ', 'TAa': 'ඨෑ', 'Ti': 'ඨි', 'Tii': 'ඨී', 'Tu': 'ඨු', 'Tuu': 'ඨූ', 'T/R': 'ඨෘ', 'T/Rr': 'ඨෲ', 'Te': 'ඨෙ', 'Tea': 'ඨේ', 'TI': 'ඨෛ', 'To': 'ඨො', 'Toe': 'ඨෝ',
+    'Tau': 'ඨෞ', 'Ta/n': 'ඨං', 'Ta/h': 'ඨඃ', 'Tra': 'ඨ්‍ර', 'Traa': 'ඨ්‍රා', 'TrA': 'ඨ්‍රැ', 'TrAa': 'ඨ්‍රෑ', 'Tri': 'ඨ්‍රි', 'Trii': 'ඨ්‍රී', 'Tru': 'ඨෘ', 'Truu': 'ඨෲ', 'Tre': 'ඨ්‍රෙ', 'Trea': 'ඨ්‍රේ', 'Tro': 'ඨ්‍රො', 'Troe': 'ඨ්‍රෝ',
+    #d
+    'd': 'ඩ්', 'da': 'ඩ', 'daa': 'ඩා', 'dA': 'ඩැ', 'dAa': 'ඩෑ', 'di': 'ඩි', 'dii': 'ඩී', 'du': 'ඩු', 'duu': 'ඩූ', 'd/R': 'ඩෘ', 'd/Rr': 'ඩෲ', 'de': 'ඩෙ', 'dea': 'ඩේ', 'dI': 'ඩෛ', 'do': 'ඩො', 'doe': 'ඩෝ', 'dau': 'ඩෞ',
+    'da/n': 'ඩං', 'da/h': 'ඩඃ', 'dra': 'ඩ්‍ර', 'draa': 'ඩ්‍රා', 'drA': 'ඩ්‍රැ', 'drAa': 'ඩ්‍රෑ', 'dri': 'ඩ්‍රි', 'drii': 'ඩ්‍රී', 'dru': 'ඩෘ', 'druu': 'ඩෲ', 'dre': 'ඩ්‍රෙ', 'drea': 'ඩ්‍රේ', 'dro': 'ඩ්‍රො', 'droe': 'ඩ්‍රෝ',
+    'D': 'ඪ්', 'Da': 'ඪ', 'Daa': 'ඪා', 'DA': 'ඪැ', 'DAa': 'ඪෑ', 'Di': 'ඪි', 'Dii': 'ඪී', 'Du': 'ඪු', 'Duu': 'ඪූ', 'D/R': 'ඪෘ', 'D/Rr': 'ඪෲ', 'De': 'ඪෙ', 'Dea': 'ඪේ', 'DI': 'ඪෛ', 'Do': 'ඪො', 'Doe': 'ඪෝ',
+    'Dau': 'ඪෞ', 'Da/n': 'ඪං', 'Da/h': 'ඪඃ', 'Dra': 'ඪ්‍ර', 'Draa': 'ඪ්‍රා', 'DrA': 'ඪ්‍රැ', 'DrAa': 'ඪ්‍රෑ', 'Dri': 'ඪ්‍රි', 'Drii': 'ඪ්‍රී', 'Dru': 'ඪෘ', 'Druu': 'ඪෲ', 'Dre': 'ඪ්‍රෙ', 'Drea': 'ඪ්‍රේ', 'Dro': 'ඪ්‍රො', 'Droe': 'ඪ්‍රෝ',
+    #n
+    'n': 'න්', 'na': 'න', 'naa': 'නා', 'nA': 'නැ', 'nAa': 'නෑ', 'ni': 'නි', 'nii': 'නී', 'nu': 'නු', 'nuu': 'නූ', 'n/R': 'නෘ', 'n/Rr': 'නෲ', 'ne': 'නෙ', 'nea': 'නේ', 'nI': 'නෛ', 'no': 'නො', 'noe': 'නෝ',
+    'nau': 'නෞ', 'na/n': 'නං', 'na/h': 'නඃ', 'nra': 'න්‍ර', 'nraa': 'න්‍රා', 'nrA': 'න්‍රැ', 'nrAa': 'න්‍රෑ', 'nri': 'න්‍රි', 'nrii': 'න්‍රී', 'nru': 'නෘ', 'nruu': 'නෲ', 'nre': 'න්‍රෙ', 'nrea': 'න්‍රේ', 'nro': 'න්‍රො', 'nroe': 'න්‍රෝ',
+    'N': 'ණ්', 'Na': 'ණ', 'Naa': 'ණා', 'NA': 'ණැ', 'NAa': 'ණෑ', 'Ni': 'ණි', 'Nii': 'ණී', 'Nu': 'ණු', 'Nuu': 'ණූ', 'N/R': 'ණෘ', 'N/Rr': 'ණෲ', 'Ne': 'ණෙ', 'Nea': 'ණේ', 'NI': 'ණෛ', 'No': 'ණො', 'Noe': 'ණෝ',
+    'Nau': 'ණෞ', 'Na/n': 'ණඞ', 'Na/h': 'ණඃ', 'Nra': 'ණ්‍ර', 'Nraa': 'ණ්‍රා', 'NrA': 'ණ්‍රැ', 'NrAa': 'ණ්‍රෑ', 'Nri': 'ණ්‍රි', 'Nrii': 'ණ්‍රී', 'Nru': 'ණෘ', 'Nruu': 'ණෲ', 'Nre': 'ණ්‍රෙ', 'Nrea': 'ණ්‍රේ', 'Nro': 'ණ්‍රො', 'Nroe': 'ණ්‍රෝ',
+    #th
+    'th': 'ත්', 'tha': 'ත', 'thaa': 'තා', 'thA': 'තැ', 'thAa': 'තෑ', 'thi': 'ති', 'thii': 'තී', 'thu': 'තු', 'thuu': 'තූ', 'th/R': 'තෘ', 'th/Rr': 'තෲ', 'the': 'තෙ', 'thea': 'තේ', 'thI': 'තෛ', 'tho': 'තො', 'thoe': 'තෝ',
+    'thau': 'තෞ', 'tha/n': 'ත\ත්', 'tha/h': 'තඃ', 'thra': 'ත්‍ර', 'thraa': 'ත්‍රා', 'thrA': 'ත්‍රැ', 'thrAa': 'ත්‍රෑ', 'thri': 'ත්‍රි', 'thrii': 'ත්‍රී', 'thru': 'තෘ', 'thruu': 'තෲ', 'thre': 'ත්‍රෙ', 'threa': 'ත්‍රේ', 'thro': 'ත්‍රො', 'throe': 'ත්‍රෝ',
+    'Th': 'ථ්', 'Tha': 'ථ', 'Thaa': 'ථා', 'ThA': 'ථැ', 'ThAa': 'ථෑ', 'Thi': 'ථි', 'Thii': 'ථී', 'Thu': 'ථු', 'Thuu': 'ථූ', 'Th/R': 'ථෘ', 'Th/Rr': 'ථෲ', 'The': 'ථෙ', 'Thea': 'ථේ', 'ThI': 'ථෛ', 'Tho': 'ථො', 'Thoe': 'ථෝ',
+    'Thau': 'ථෞ', 'Tha/n': 'ථ\ථ්', 'Tha/h': 'ථඃ', 'Thra': 'ථ්‍ර', 'Thraa': 'ථ්‍රා', 'ThrA': 'ථ්‍රැ', 'ThrAa': 'ථ්‍රෑ', 'Thri': 'ථ්‍රි', 'Thrii': 'ථ්‍රී', 'Thru': 'ථෘ', 'Thruu': 'ථෲ', 'Thre': 'ථ්‍රෙ', 'Threa': 'ථ්‍රේ', 'Thro': 'ථ්‍රො', 'Throe': 'ථ්‍රෝ',
+    #dh
+    'dh': 'ද්', 'dha': 'ද', 'dhaa': 'දා', 'dhA': 'දැ', 'dhAa': 'දෑ', 'dhi': 'දි', 'dhii': 'දී', 'dhu': 'දු', 'dhuu': 'දූ', 'dh/R': 'දෘ', 'dh/Rr': 'දෲ', 'dhe': 'දෙ', 'dhea': 'දේ', 'dhI': 'දෛ', 'dho': 'දො', 'dhoe': 'දෝ',
+    'dhau': 'දෞ', 'dha/n': 'ද\ද්', 'dha/h': 'දඃ', 'dhra': 'ද්‍ර', 'dhraa': 'ද්‍රා', 'dhrA': 'ද්‍රැ', 'dhrAa': 'ද්‍රෑ', 'dhri': 'ද්‍රි', 'dhrii': 'ද්‍රී', 'dhru': 'දෘ', 'dhruu': 'දෲ', 'dhre': 'ද්‍රෙ', 'dhrea': 'ද්‍රේ', 'dhro': 'ද්‍රො', 'dhroe': 'ද්‍රෝ',
+    'Dh': 'ධ්', 'Dha': 'ධ', 'Dhaa': 'ධා', 'DhA': 'ධැ', 'DhAa': 'ධෑ', 'Dhi': 'ධි', 'Dhii': 'ධී', 'Dhu': 'ධු', 'Dhuu': 'ධූ', 'Dh/R': 'ධෘ', 'Dh/Rr': 'ධෲ', 'Dhe': 'ධෙ', 'Dhea': 'ධේ', 'DhI': 'ධෛ', 'Dho': 'ධො', 'Dhoe': 'ධෝ',
+    'Dhau': 'ධෞ', 'Dha/n': 'ධ\ධ්', 'Dha/h': 'ධඃ', 'Dhra': 'ධ්‍ර', 'Dhraa': 'ධ්‍රා', 'DhrA': 'ධ්‍රැ', 'DhrAa': 'ධ්‍රෑ', 'Dhri': 'ධ්‍රි', 'Dhrii': 'ධ්‍රී', 'Dhru': 'ධෘ', 'Dhruu': 'ධෲ', 'Dhre': 'ධ්‍රෙ', 'Dhrea': 'ධ්‍රේ', 'Dhro': 'ධ්‍රො', 'Dhroe': 'ධ්‍රෝ',
+    #p
+    'p': 'ප්', 'pa': 'ප', 'paa': 'පා', 'pA': 'පැ', 'pAa': 'පෑ', 'pi': 'පි', 'pii': 'පී', 'pu': 'පු', 'puu': 'පූ', 'p/R': 'පෘ', 'p/Rr': 'පෲ', 'pe': 'පෙ', 'pea': 'පේ', 'pI': 'පෛ', 'po': 'පො', 'poe': 'පෝ',
+    'pau': 'පෞ', 'pa/n': 'ප\ප්', 'pa/h': 'පඃ', 'pra': 'ප්‍ර', 'praa': 'ප්‍රා', 'prA': 'ප්‍රැ', 'prAa': 'ප්‍රෑ', 'pri': 'ප්‍රි', 'prii': 'ප්‍රී', 'pru': 'පෘ', 'pruu': 'පෲ', 'pre': 'ප්‍රෙ', 'prea': 'ප්‍රේ', 'pro': 'ප්‍රො', 'proe': 'ප්‍රෝ',
+    'P': 'ඵ්', 'Pa': 'ඵ', 'Paa': 'ඵා', 'PA': 'ඵැ', 'PAa': 'ඵෑ', 'Pi': 'ඵි', 'Pii': 'ඵී', 'Pu': 'ඵු', 'Puu': 'ඵූ', 'P/R': 'ඵෘ', 'P/Rr': 'ඵෲ', 'Pe': 'ඵෙ', 'Pea': 'ඵේ', 'PI': 'ඵෛ', 'Po': 'ඵො', 'Poe': 'ඵෝ',
+    'Pau': 'ඵෞ', 'Pa/n': 'ඵ\ඵ්', 'Pa/h': 'ඵඃ', 'Pra': 'ඵ්‍ර', 'Praa': 'ඵ්‍රා', 'PrA': 'ඵ්‍රැ', 'PrAa': 'ඵ්‍රෑ', 'Pri': 'ඵ්‍රි', 'Prii': 'ඵ්‍රී', 'Pru': 'ඵෘ', 'Pruu': 'ඵෲ', 'Pre': 'ඵ්‍රෙ', 'Prea': 'ඵ්‍රේ', 'Pro': 'ඵ්‍රො', 'Proe': 'ඵ්‍රෝ',
+    #b
+    'b': 'බ්', 'ba': 'බ', 'baa': 'බා', 'bA': 'බැ', 'bAa': 'බෑ', 'bi': 'බි', 'bii': 'බී', 'bu': 'බු', 'buu': 'බූ', 'b/R': 'බෘ', 'b/Rr': 'බෲ', 'be': 'බෙ', 'bea': 'බේ', 'bI': 'බෛ', 'bo': 'බො', 'boe': 'බෝ',
+    'bau': 'බෞ', 'ba/n': 'බ\බ්', 'ba/h': 'බඃ', 'bra': 'බ්‍ර', 'braa': 'බ්‍රා', 'brA': 'බ්‍රැ', 'brAa': 'බ්‍රෑ', 'bri': 'බ්‍රි', 'brii': 'බ්‍රී', 'bru': 'බෘ', 'bruu': 'බෲ', 'bre': 'බ්‍රෙ', 'brea': 'බ්‍රේ', 'bro': 'බ්‍රො', 'broe': 'බ්‍රෝ',
+    'B': 'ඹ්', 'Ba': 'ඹ', 'Baa': 'ඹා', 'BA': 'ඹැ', 'BAa': 'ඹෑ', 'Bi': 'ඹි', 'Bii': 'ඹී', 'Bu': 'ඹු', 'Buu': 'ඹූ', 'B/R': 'ඹෘ', 'B/Rr': 'ඹෲ', 'Be': 'ඹෙ', 'Bea': 'ඹේ', 'BI': 'ඹෛ', 'Bo': 'ඹො', 'Boe': 'ඹෝ',
+    'Bau': 'ඹෞ', 'Ba/n': 'ඹ\ඹ්', 'Ba/h': 'ඹඃ', 'Bra': 'ඹ්‍ර', 'Braa': 'ඹ්‍රා', 'BrA': 'ඹ්‍රැ', 'BrAa': 'ඹ්‍රෑ', 'Bri': 'ඹ්‍රි', 'Brii': 'ඹ්‍රී', 'Bru': 'ඹෘ', 'Bruu': 'ඹෲ', 'Bre': 'ඹ්‍රෙ', 'Brea': 'ඹ්‍රේ', 'Bro': 'ඹ්‍රො', 'Broe': 'ඹ්‍රෝ',
+    #m
+    'm': 'ම්', 'ma': 'ම', 'maa': 'මා', 'mA': 'මැ', 'mAa': 'මෑ', 'mi': 'මි', 'mii': 'මී', 'mu': 'මු', 'muu': 'මූ', 'm/R': 'මෘ', 'm/Rr': 'මෲ', 'me': 'මෙ', 'mea': 'මේ', 'mI': 'මෛ', 'mo': 'මො', 'moe': 'මෝ',
+    'mau': 'මෞ', 'ma/n': 'ම\ම්', 'ma/h': 'මඃ', 'mra': 'ම්‍ර', 'mraa': 'ම්‍රා', 'mrA': 'ම්‍රැ', 'mrAa': 'ම්‍රෑ', 'mri': 'ම්‍රි', 'mrii': 'ම්‍රී', 'mru': 'මෘ', 'mruu': 'මෲ', 'mre': 'ම්‍රෙ', 'mrea': 'ම්‍රේ', 'mro': 'ම්‍රො', 'mroe': 'ම්‍රෝ',
+    #y
+    'y': 'ය්', 'ya': 'ය', 'yaa': 'යා', 'yA': 'යැ', 'yAa': 'යෑ', 'yi': 'යි', 'yii': 'යී', 'yu': 'යු', 'yuu': 'යූ', 'y/R': 'යෘ', 'y/Rr': 'යෲ', 'ye': 'යෙ', 'yea': 'යේ', 'yI': 'යෛ', 'yo': 'යො', 'yoe': 'යෝ',
+    'yau': 'යෞ', 'ya/n': 'යං', 'ya/h': 'යඃ', 'yra': 'ය්‍ර', 'yraa': 'ය්‍රා', 'yrA': 'ය්‍රැ', 'yrAa': 'ය්‍රෑ', 'yri': 'ය්‍රි', 'yrii': 'ය්‍රී', 'yru': 'යෘ', 'yruu': 'යෲ', 'yre': 'ය්‍රෙ', 'yrea': 'ය්‍රේ', 'yro': 'ය්‍රො', 'yroe': 'ය්‍රෝ',
+    #l
+    'L': 'ළ්', 'La': 'ළ', 'Laa': 'ළා', 'LA': 'ළැ', 'LAa': 'ළෑ', 'Li': 'ළි', 'Lii': 'ළී', 'Lu': 'ළු', 'Luu': 'ළුු', 'L/R': 'ළෘ', 'L/Rr': 'ළෲ', 'Le': 'ළෙ', 'Lea': 'ළේ', 'LI': 'ළෛ', 'Lo': 'ළො', 'Loe': 'ළෝ',
+    'Lau': 'ළෞ', 'La/n': 'ළං', 'La/h': 'ළඃ', 'Lra': 'ළ්‍ර', 'Lraa': 'ළ්‍රා', 'LrA': 'ළ්‍රැ', 'LrAa': 'ළ්‍රෑ', 'Lri': 'ළ්‍රි', 'Lrii': 'ළ්‍රී', 'Lru': 'ළෘ', 'Lruu': 'ළෲ', 'Lre': 'ළ්‍රෙ', 'Lrea': 'ළ්‍රේ', 'Lro': 'ළ්‍රො', 'Lroe': 'ළ්‍රෝ',
+    #v
+    'v': 'ව්', 'va': 'ව', 'vaa': 'වා', 'vA': 'වැ', 'vAa': 'වෑ', 'vi': 'වි', 'vii': 'වී', 'vu': 'වු', 'vuu': 'වූ', 'v/R': 'වෘ', 'v/Rr': 'වෲ', 've': 'වෙ', 'vea': 'වේ', 'vI': 'වෛ', 'vo': 'වො', 'voe': 'වෝ',
+    'vau': 'වෞ', 'va/n': 'වං', 'va/h': 'වඃ', 'vra': 'ව්‍ර', 'vraa': 'ව්‍රා', 'vrA': 'ව්‍රැ', 'vrAa': 'ව්‍රෑ', 'vri': 'ව්‍රි', 'vrii': 'ව්‍රී', 'vru': 'වෘ', 'vruu': 'වෲ', 'vre': 'ව්‍රෙ', 'vrea': 'ව්‍රේ', 'vro': 'ව්‍රො', 'vroe': 'ව්‍රෝ',
+    #sh
+    'sh': 'ශ්', 'sha': 'ශ', 'shaa': 'ශා', 'shA': 'ශැ', 'shAa': 'ශෑ', 'shi': 'ශි', 'shii': 'ශී', 'shu': 'ශු', 'shuu': 'ශූ', 'sh/R': 'ශෘ', 'sh/Rr': 'ශෲ', 'she': 'ශෙ', 'shea': 'ශේ', 'shI': 'ශෛ', 'sho': 'ශො', 'shoe': 'ශෝ',
+    'shau': 'ශෞ', 'sha/n': 'ශං', 'sha/h': 'ශඃ', 'shra': 'ශ්‍ර', 'shraa': 'ශ්‍රා', 'shrA': 'ශ්‍රැ', 'shrAa': 'ශ්‍රෑ', 'shri': 'ශ්‍රි', 'shrii': 'ශ්‍රී', 'shru': 'ශෘ', 'shruu': 'ශෲ', 'shre': 'ශ්‍රෙ', 'shrea': 'ශ්‍රේ', 'shro': 'ශ්‍රො', 'shroe': 'ශ්‍රෝ',
+    'Sh': 'ෂ්', 'Sha': 'ෂ', 'Shaa': 'ෂා', 'ShA': 'ෂැ', 'ShAa': 'ෂෑ', 'Shi': 'ෂි', 'Shii': 'ෂී', 'Shu': 'ෂු', 'Shuu': 'ෂූ', 'Sh/R': 'ෂෘ', 'Sh/Rr': 'ෂෲ', 'She': 'ෂෙ', 'Shea': 'ෂේ', 'ShI': 'ෂෛ', 'Sho': 'ෂො', 'Shoe': 'ෂෝ',
+    'Shau': 'ෂෞ', 'Sha/n': 'ෂං', 'Sha/h': 'ෂඃ', 'Shra': 'ෂ්‍ර', 'Shraa': 'ෂ්‍රා', 'ShrA': 'ෂ්‍රැ', 'ShrAa': 'ෂ්‍රෑ', 'Shri': 'ෂ්‍රි', 'Shrii': 'ෂ්‍රී', 'Shru': 'ෂෘ', 'Shruu': 'ෂෲ', 'Shre': 'ෂ්‍රෙ', 'Shrea': 'ෂ්‍රේ', 'Shro': 'ෂ්‍රො', 'Shroe': 'ෂ්‍රෝ',
+    #s
+    's': 'ස්', 'sa': 'ස', 'saa': 'සා', 'sA': 'සැ', 'sAa': 'සෑ', 'si': 'සි', 'sii': 'සී', 'su': 'සු', 'suu': 'සූ', 's/R': 'සෘ', 's/Rr': 'සෲ', 'se': 'සෙ', 'sea': 'සේ', 'sI': 'සෛ', 'so': 'සො', 'soe': 'සෝ',
+    'sau': 'සෞ', 'sa/n': 'සං', 'sa/h': 'සඃ', 'sra': 'ස්‍ර', 'sraa': 'ස්‍රා', 'srA': 'ස්‍රැ', 'srAa': 'ස්‍රෑ', 'sri': 'ස්‍රි', 'srii': 'ස්‍රී', 'sru': 'සෘ', 'sruu': 'සෲ', 'sre': 'ස්‍රෙ', 'srea': 'ස්‍රේ', 'sro': 'ස්‍රො', 'sroe': 'ස්‍රෝ',
+    #h
+    'h': 'හ්', 'ha': 'හ', 'haa': 'හා', 'hA': 'හැ', 'hAa': 'හෑ', 'hi': 'හි', 'hii': 'හී', 'hu': 'හු', 'huu': 'හූ', 'h/R': 'හෘ', 'h/Rr': 'හෲ', 'he': 'හෙ', 'hea': 'හේ', 'hI': 'හෛ', 'ho': 'හො', 'hoe': 'හෝ',
+    'hau': 'හෞ', 'ha/n': 'හං', 'ha/h': 'හඃ', 'hra': 'හ්‍ර', 'hraa': 'හ්‍රා', 'hrA': 'හ්‍රැ', 'hrAa': 'හ්‍රෑ', 'hri': 'හ්‍රි', 'hrii': 'හ්‍රී', 'hru': 'හෘ', 'hruu': 'හෲ', 'hre': 'හ්‍රෙ', 'hrea': 'හ්‍රේ', 'hro': 'හ්‍රො', 'hroe': 'හ්‍රෝ',
+    #f
+    'f': 'ෆ්', 'fa': 'ෆ', 'faa': 'ෆා', 'fA': 'ෆැ', 'fAa': 'ෆෑ', 'fi': 'ෆි', 'fii': 'ෆී', 'fu': 'ෆු', 'fuu': 'ෆූ', 'f/R': 'ෆෘ', 'f/Rr': 'ෆෲ', 'fe': 'ෆෙ', 'fea': 'ෆේ', 'fI': 'ෆෛ', 'fo': 'ෆො', 'foe': 'ෆෝ',
+    'fau': 'ෆෞ', 'fa/n': 'ෆං', 'fa/h': 'ෆඃ', 'fra': 'ෆ්‍ර', 'fraa': 'ෆ්‍රා', 'frA': 'ෆ්‍රැ', 'frAa': 'ෆ්‍රෑ', 'fri': 'ෆ්‍රි', 'frii': 'ෆ්‍රී', 'fru': 'ෆෘ', 'fruu': 'ෆෲ', 'fre': 'ෆ්‍රෙ', 'frea': 'ෆ්‍රේ', 'fro': 'ෆ්‍රො', 'froe': 'ෆ්‍රෝ',
+    #B
+    'B': 'ඹ්', 'Ba': 'ඹ', 'Baa': 'ඹා', 'BA': 'ඹැ', 'BAa': 'ඹෑ', 'Bi': 'ඹි', 'Bii': 'ඹී', 'Bu': 'ඹු', 'Buu': 'ඹූ', 'B/R': 'ඹෘ', 'B/Rr': 'ඹෲ', 'Be': 'ඹෙ', 'Bea': 'ඹේ', 'BI': 'ඹෛ', 'Bo': 'ඹො', 'Boe': 'ඹෝ',
+    'Bau': 'ඹෞ', 'Ba/n': 'ඹං', 'Ba/h': 'ඹඃ', 'Bra': 'ඹ්‍ර', 'Braa': 'ඹ්‍රා', 'BrA': 'ඹ්‍රැ', 'BrAa': 'ඹ්‍රෑ', 'Bri': 'ඹ්‍රි', 'Brii': 'ඹ්‍රී', 'Bru': 'ඹෘ', 'Bruu': 'ඹෲ', 'Bre': 'ඹ්‍රෙ', 'Brea': 'ඹ්‍රේ', 'Bro': 'ඹ්‍රො', 'Broe': 'ඹ්‍රෝ',
+    #nng': ඟ්
+    'nng': 'ඟ්', 'nnga': 'ඟ', 'nngaa': 'ඟා', 'nngA': 'ඟැ', 'nngAa': 'ඟෑ', 'nngi': 'ඟි', 'nngii': 'ඟී', 'nngu': 'ඟු', 'nnguu': 'ඟූ', 'nng/R': 'ඟෘ', 'nng/Rr': 'ඟෲ', 'nnge': 'ඟෙ', 'nngea': 'ඟේ', 'nngI': 'ඟෛ', 'nngo': 'ඟො', 'nngoe': 'ඟෝ',
+    'nngau': 'ඟෞ', 'nnga/n': 'ඟං', 'nnga/h': 'ඟඃ', 'nngra': 'ඟ්‍ර', 'nngraa': 'ඟ්‍රා', 'nngrA': 'ඟ්‍රැ', 'nngrAa': 'ඟ්‍රෑ', 'nngri': 'ඟ්‍රි', 'nngrii': 'ඟ්‍රී', 'nngru': 'ඟෘ', 'nngruu': 'ඟෲ', 'nngre': 'ඟ්‍රෙ', 'nngrea': 'ඟ්‍රේ', 'nngro': 'ඟ්‍රො', 'nngroe': 'ඟ්‍රෝ',
+    'GN': 'ඥ්', 'GNa': 'ඥ', 'GNaa': 'ඥා', 'GNA': 'ඥැ', 'GNAa': 'ඥෑ', 'GNi': 'ඥි', 'GNii': 'ඥී', 'GNu': 'ඥු', 'GNuu': 'ඥූ', 'GN/R': 'ඥෘ', 'GN/Rr': 'ඥෲ', 'GNe': 'ඥෙ', 'GNea': 'ඥේ', 'GNI': 'ඥෛ', 'GNo': 'ඥො', 'GNoe': 'ඥෝ',
+    'GNau': 'ඥෞ', 'GNa/n': 'ඥං', 'GNa/h': 'ඥඃ', 'GNra': 'ඥ්‍ර', 'GNraa': 'ඥ්‍රා', 'GNrA': 'ඥ්‍රැ', 'GNrAa': 'ඥ්‍රෑ', 'GNri': 'ඥ්‍රි', 'GNrii': 'ඥ්‍රී', 'GNru': 'ඥෘ', 'GNruu': 'ඥෲ', 'GNre': 'ඥ්‍රෙ', 'GNrea': 'ඥ්‍රේ', 'GNro': 'ඥ්‍රො', 'GNroe': 'ඥ්‍රෝ',
+    'KN': 'ඤ්', 'KNa': 'ඤ', 'KNaa': 'ඤා', 'KNA': 'ඤැ', 'KNAa': 'ඤෑ', 'KNi': 'ඤි', 'KNii': 'ඤී', 'KNu': 'ඤු', 'KNuu': 'ඤූ', 'KN/R': 'ඤෘ', 'KN/Rr': 'ඤෲ', 'KNe': 'ඤෙ', 'KNea': 'ඤේ', 'KNI': 'ඤෛ', 'KNo': 'ඤො', 'KNoe': 'ඤෝ',
+    'KNau': 'ඤෞ', 'KNa/n': 'ඤං', 'KNa/h': 'ඤඃ', 'KNra': 'ඤ්‍ර', 'KNraa': 'ඤ්‍රා', 'KNrA': 'ඤ්‍රැ', 'KNrAa': 'ඤ්‍රෑ', 'KNri': 'ඤ්‍රි', 'KNrii': 'ඤ්‍රී', 'KNru': 'ඤෘ', 'KNruu': 'ඤෲ', 'KNre': 'ඤ්‍රෙ', 'KNrea': 'ඤ්‍රේ', 'KNro': 'ඤ්‍රො', 'KNroe': 'ඤ්‍රෝ',
+    'nnd': 'ඬ්', 'nnda': 'ඬ', 'nndaa': 'ඬා', 'nndA': 'ඬැ', 'nndAa': 'ඬෑ', 'nndi': 'ඬි', 'nndii': 'ඬී', 'nndu': 'ඬු', 'nnduu': 'ඬූ', 'nnd/R': 'ඬෘ', 'nnd/Rr': 'ඬෲ', 'nnde': 'ඬෙ', 'nndea': 'ඬේ', 'nndI': 'ඬෛ', 'nndo': 'ඬො', 'nndoe': 'ඬෝ',
+    'nndau': 'ඬෞ', 'nnda/n': 'ඬං', 'nnda/h': 'ඬඃ', 'nndra': 'ඬ්‍ර', 'nndraa': 'ඬ්‍රා', 'nndrA': 'ඬ්‍රැ', 'nndrAa': 'ඬ්‍රෑ', 'nndri': 'ඬ්‍රි', 'nndrii': 'ඬ්‍රී', 'nndru': 'ඬෘ', 'nndruu': 'ඬෲ', 'nndre': 'ඬ්‍රෙ', 'nndrea': 'ඬ්‍රේ', 'nndro': 'ඬ්‍රො', 'nndroe': 'ඬ්‍රෝ',
+    'nndh': 'ඳ්', 'nndha': 'ඳ', 'nndhaa': 'ඳා', 'nndhA': 'ඳැ', 'nndhAa': 'ඳෑ', 'nndhi': 'ඳි', 'nndhii': 'ඳී', 'nndhu': 'ඳු', 'nndhuu': 'ඳූ', 'nndh/R': 'ඳෘ', 'nndh/Rr': 'ඳෲ', 'nndhe': 'ඳෙ', 'nndhea': 'ඳේ', 'nndhI': 'ඳෛ', 'nndho': 'ඳො', 'nndhoe': 'ඳෝ',
+    'nndhau': 'ඳෞ', 'nndha/n': 'ඳං', 'nndha/h': 'ඳඃ', 'nndhra': 'ඳ්‍ර', 'nndhraa': 'ඳ්‍රා', 'nndhrA': 'ඳ්‍රැ', 'nndhrAa': 'ඳ්‍රෑ', 'nndhri': 'ඳ්‍රි', 'nndhrii': 'ඳ්‍රී', 'nndhru': 'ඳෘ', 'nndhruu': 'ඳෲ', 'nndhre': 'ඳ්‍රෙ', 'nndhrea': 'ඳ්‍රේ', 'nndhro': 'ඳ්‍රො', 'nndhroe': 'ඳ්‍රෝ',
+    'bh': 'භ්', 'bha': 'භ', 'bhaa': 'භා', 'bhA': 'භැ', 'bhAa': 'භෑ', 'bhi': 'භි', 'bhii': 'භී', 'bhu': 'භු', 'bhuu': 'භූ', 'bh/R': 'භෘ', 'bh/Rr': 'භෲ', 'bhe': 'භෙ', 'bhea': 'භේ', 'bhI': 'භෛ', 'bho': 'භො', 'bhoe': 'භෝ',
+    'bhau': 'භෞ', 'bha/n': 'භං', 'bha/h': 'භඃ', 'bhra': 'භ්‍ර', 'bhraa': 'භ්‍රා', 'bhrA': 'භ්‍රැ', 'bhrAa': 'භ්‍රෑ', 'bhri': 'භ්‍රි', 'bhrii': 'භ්‍රී', 'bhru': 'භෘ', 'bhruu': 'භෲ', 'bhre': 'භ්‍රෙ', 'bhrea': 'භ්‍රේ', 'bhro': 'භ්‍රො', 'bhroe': 'භ්‍රෝ',
+
+    #special casses
+    'ie': 'ඊ', 'ae': 'ඇ', 'aea': 'ඈ', 'kie': 'කී', 'kae': 'කැ', 'kaea': 'කෑ', 'Kie': 'ඛී', 'Kae': 'ඛැ', 'Kaea': 'ඛෑ', 'gie': 'ගී', 'gae': 'ගැ', 'gaea': 'ගෑ', 'Gie': 'ඝී', 'Gae': 'ඝැ', 'Gaea': 'ඝෑ', 'chie': 'චී', 'chae': 'චැ',
+    'chaea': 'චෑ', 'Chie': 'ඡී', 'Chae': 'ඡැ', 'Chaea': 'ඡෑ', 'jie': 'ජී', 'jae': 'ජැ', 'jaea': 'ජෑ', 'qie': 'ඣී', 'qae': 'ඣැ', 'qaea': 'ඣෑ', 'tie': 'ටී', 'tae': 'ටැ', 'taea': 'ටෑ', 'Tie': 'ඨී', 'Tae': 'ඨැ', 'Taea': 'ඨෑ',
+    'die': 'ඩී', 'dae': 'ඩැ', 'daea': 'ඩෑ', 'Die': 'ඪී', 'Dae': 'ඪැ', 'Daea': 'ඪෑ', 'nie': 'නී', 'nae': 'නැ', 'naea': 'නෑ', 'Nie': 'ණී', 'Nae': 'ණැ', 'Naea': 'ණෑ', 'thie': 'තී', 'thae': 'තැ', 'thaea': 'තෑ', 'Thie': 'ථී',
+    'Thae': 'ථැ', 'Thaea': 'ථෑ', 'dhie': 'දී', 'dhae': 'දැ', 'dhaea': 'දෑ', 'Dhie': 'ධී', 'Dhae': 'ධැ', 'Dhaea': 'ධෑ', 'pie': 'පී', 'pae': 'පැ', 'paea': 'පෑ', 'Pie': 'ඵී', 'Pae': 'ඵැ', 'Paea': 'ඵෑ', 'bie': 'බී', 'bae': 'බැ',
+    'baea': 'බෑ', 'Bie': 'ඹී', 'Bae': 'ඹැ', 'Baea': 'ඹෑ', 'mie': 'මී', 'mae': 'මැ', 'maea': 'මෑ', 'yie': 'යී', 'yae': 'යැ', 'yaea': 'යෑ', 'rie': 'රී', 'rae': 'රැ', 'raea': 'රෑ', 'lie': 'ලී', 'lae': 'ලැ', 'laea': 'ලෑ',
+    'Lie': 'ළී', 'Lae': 'ළැ', 'Laea': 'ළෑ', 'vie': 'වී', 'vae': 'වැ', 'vaea': 'වෑ', 'shie': 'ශී', 'shae': 'ශැ', 'shaea': 'ශෑ', 'Shie': 'ෂී', 'Shae': 'ෂැ', 'Shaea': 'ෂෑ', 'sie': 'සී', 'sae': 'සැ', 'saea': 'සෑ', 'hie': 'හී',
+    'hae': 'හැ', 'haea': 'හෑ', 'fie': 'ෆී', 'fae': 'ෆැ', 'faea': 'ෆෑ', 'Bie': 'ඹී', 'Bae': 'ඹැ', 'Baea': 'ඹෑ', 'nngie': 'ඟී', 'nngae': 'ඟැ', 'nngaea': 'ඟෑ', 'GNie': 'ඥී', 'GNae': 'ඥැ', 'GNaea': 'ඥෑ', 'KNie': 'ඤී', 'KNae': 'ඤැ',
+    'KNaea': 'ඤෑ', 'nndie': 'ඬී', 'nndae': 'ඬැ', 'nndaea': 'ඬෑ', 'nndhie': 'ඳී', 'nndhae': 'ඳැ', 'nndhaea': 'ඳෑ', 'bhie': 'භී', 'bhae': 'භැ', 'bhaea': 'භෑ'
+}
+
+def transliterate(text: str) -> str:
+    """
+    Transliterate English text to Sinhala.
+    Optimized version with better string handling.
+    """
+    if not text:
+        return ""
+        
+    # Pre-allocate result list for better performance
+    result = []
+    i = 0
+    text_len = len(text)
+    
+    while i < text_len:
+        # Try to match longer combinations first
+        matched = False
+        for length in (4, 3, 2, 1):  # Check 4-letter, 3-letter, 2-letter, and single letter combinations
+            if i + length <= text_len:
+                substr = text[i:i+length]
+                if substr in TRANSLITERATION_MAP:
+                    result.append(TRANSLITERATION_MAP[substr])
+                    i += length
+                    matched = True
+                    break
+        
+        if not matched:
+            # If no match found, keep the original character
+            result.append(text[i])
+            i += 1
+    
+    return "".join(result)
+
+if __name__ == "__main__":
+    # Example usage
+    test_text = "mama gedara yanawa"
+    result = transliterate(test_text)
+    print(f"Input: {test_text}")
+    print(f"Output: {result}")
