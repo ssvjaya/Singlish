@@ -13,6 +13,8 @@ class TransliteratorGUI:
         self.last_keypress = 0
         self.debounce_delay = 0.3  # 300ms delay
         self.update_pending = False
+        self.last_text = ""  # Store the last English text to avoid redundant updates
+        self.update_job = None  # Store the ID of the scheduled update job
         
         # Configure style
         style = ttk.Style()
@@ -110,24 +112,25 @@ class TransliteratorGUI:
     
     def schedule_update(self, event=None):
         """Schedule the text update with debouncing"""
-        current_time = time.time()
-        if current_time - self.last_keypress > self.debounce_delay:
-            if not self.update_pending:
-                self.update_pending = True
-                self.root.after(int(self.debounce_delay * 1000), self.update_text)
-        self.last_keypress = current_time
+        if self.update_job:
+            self.root.after_cancel(self.update_job)  # Cancel any pending update
+        self.update_job = self.root.after(int(self.debounce_delay * 1000), self.update_text)
     
     def update_text(self):
         """Update the Sinhala text with debouncing"""
-        self.update_pending = False
+        self.update_job = None  # Clear the scheduled job ID
         english = self.english_text.get("1.0", tk.END).strip()
-        sinhala = transliterate(english)
         
-        # Update Sinhala text area efficiently
-        self.sinhala_text.config(state='normal')
-        self.sinhala_text.delete("1.0", tk.END)
-        self.sinhala_text.insert("1.0", sinhala)
-        self.sinhala_text.config(state='disabled')
+        # Only update if the text has changed
+        if english != self.last_text:
+            self.last_text = english
+            sinhala = transliterate(english)
+            
+            # Update Sinhala text area efficiently
+            self.sinhala_text.config(state='normal')
+            self.sinhala_text.delete("1.0", tk.END)
+            self.sinhala_text.insert("1.0", sinhala)
+            self.sinhala_text.config(state='disabled')
     
     def clear_text(self):
         """Clear both text areas efficiently"""
@@ -135,8 +138,10 @@ class TransliteratorGUI:
         self.sinhala_text.config(state='normal')
         self.sinhala_text.delete("1.0", tk.END)
         self.sinhala_text.config(state='disabled')
-        self.last_keypress = 0
-        self.update_pending = False
+        self.last_text = ""  # Reset the last text
+        if self.update_job:
+            self.root.after_cancel(self.update_job)  # Cancel any pending update
+            self.update_job = None
     
     def copy_sinhala(self):
         """Copy Sinhala text to clipboard"""
