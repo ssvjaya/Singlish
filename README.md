@@ -53,7 +53,7 @@ We welcome contributions to improve Singlish! To contribute:
 3. For major changes, please open an issue to discuss your ideas first.
 
 ## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the Open Source License.
 
 ## Contact
 - **Author**: ssvjaya
