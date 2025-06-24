@@ -3,6 +3,7 @@ from functools import partial
 from PyQt6.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QWidget, QApplication
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
+from styles import LIGHT_MODE_STYLE, DARK_MODE_STYLE  # Import styles
 
 class HistoryWindow(QWidget):  # History window using QWidget
     DB_FILE = "history.db"  # SQLite database file
@@ -12,6 +13,14 @@ class HistoryWindow(QWidget):  # History window using QWidget
         self.setWindowTitle("History")
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.Window)
         self.setGeometry(200, 100, 800, 600)  # Set window size
+        self.setObjectName("main_widget_container")  # Match the style name
+
+        
+        # Main layout
+        self.main_widget = QWidget(self)  # Set the parent to self
+        self.main_layout = QVBoxLayout(self.main_widget)
+        self.setLayout(self.main_layout)  # Directly set the layout for the main widget
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
 
         # Assign dark_mode to an instance variable
         self.dark_mode = dark_mode
@@ -22,33 +31,23 @@ class HistoryWindow(QWidget):  # History window using QWidget
         # Merge passed history with loaded history
         self.add_history_items(history)
 
-        # Main layout
-        self.main_layout = QVBoxLayout(self)
-        self.main_layout.setContentsMargins(20, 0, 0, 20)
 
         # Title bar
         self.title_bar = QWidget(self)
+        self.title_bar.setObjectName("title_bar")  # Match the style name
         self.title_bar.setFixedHeight(35)
         self.title_bar_layout = QHBoxLayout(self.title_bar)
-        self.title_bar_layout.setContentsMargins(0, 0, 0, 0)  # Remove right-side padding
+        self.title_bar_layout.setContentsMargins(20, 2, 2, 2)  # Remove right-side padding
 
         self.title_label = QLabel("History", self.title_bar)
-        self.title_label.setFont(QFont("Arial", 14))
+        self.title_label.setObjectName("title_bar_label")  # Match the style name
+        self.title_label.setFont(QFont("Arial", 12))
         self.title_bar_layout.addWidget(self.title_label)
 
         self.close_button = QPushButton("✕", self.title_bar)
+        self.close_button.setObjectName("title_bar_button_close")  # Match the style name
         self.close_button.setFixedSize(40, 35)
         self.close_button.clicked.connect(self.close)
-        self.close_button.setStyleSheet("""
-            QPushButton {
-                background-color: transparent; 
-                border: none; 
-                font-size: 18px;
-            }
-            QPushButton:hover {
-                background-color: #F70000; /* Light red hover background */
-            }
-        """)  # Close button style with hover effect
         self.title_bar_layout.addWidget(self.close_button, alignment=Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignRight)  # Align to top-right corner
 
         self.main_layout.addWidget(self.title_bar)
@@ -57,6 +56,7 @@ class HistoryWindow(QWidget):  # History window using QWidget
         self.history_widget = QWidget(self)
         self.history_layout = QVBoxLayout(self.history_widget)
         self.history_layout.setContentsMargins(30, 30, 30, 30)
+        self.history_layout.setObjectName("history_widget_container")  # Match the style name
 
         self.populate_history()
 
@@ -71,6 +71,9 @@ class HistoryWindow(QWidget):  # History window using QWidget
 
         # Apply styling
         self.apply_styling(dark_mode)
+
+        self._is_dragging = False  # Track dragging state
+        self._drag_start_position = None  # Store initial mouse position
 
     def init_db(self):
         """Initialize the SQLite database and create the history table if it doesn't exist."""
@@ -156,8 +159,10 @@ class HistoryWindow(QWidget):  # History window using QWidget
 
                 self.history_layout.addLayout(item_layout)
         else:
+            # Display a message when no history is available
             no_history_label = QLabel("No history available.", self.history_widget)
             no_history_label.setFont(QFont("Arial", 12))
+            no_history_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
             self.history_layout.addWidget(no_history_label)
 
     def copy_to_clipboard(self, text):
@@ -170,39 +175,29 @@ class HistoryWindow(QWidget):  # History window using QWidget
         super().closeEvent(event)
 
     def apply_styling(self, dark_mode):
-        if dark_mode:
-            self.setStyleSheet("""
-                QWidget {
-                    background-color: #2E2E2E;
-                    color: white;
-                }
-                QLabel {
-                    color: white;
-                }
-                QPushButton {
-                    background-color: #444444;
-                    color: white;
-                    border: none;
-                }
-                QPushButton:hover {
-                    background-color: #555555;
-                }
-            """)
-        else:
-            self.setStyleSheet("""
-                QWidget {
-                    background-color: #FDFDFD;
-                    color: black;
-                }
-                QLabel {
-                    color: black;
-                }
-                QPushButton {
-                    background-color: #E0E0E0;
-                    color: black;
-                    border: none;
-                }
-                QPushButton:hover {
-                    background-color: #D0D0D0;
-                }
-            """)
+        """Apply light or dark mode styles with a border."""
+        border_style = "border: 2px solid black;" if not dark_mode else "border: 2px solid white;"
+        self.setStyleSheet(f"""
+            QWidget#main_widget_container {{
+                {border_style}
+            }}
+        """ + (DARK_MODE_STYLE if dark_mode else LIGHT_MODE_STYLE))
+
+    def mousePressEvent(self, event):
+        """Handle mouse press event to start dragging."""
+        if event.button() == Qt.MouseButton.LeftButton:
+            self._is_dragging = True
+            self._drag_start_position = event.globalPosition().toPoint() - self.frameGeometry().topLeft()
+            event.accept()
+
+    def mouseMoveEvent(self, event):
+        """Handle mouse move event to drag the window."""
+        if self._is_dragging and event.buttons() == Qt.MouseButton.LeftButton:
+            self.move(event.globalPosition().toPoint() - self._drag_start_position)
+            event.accept()
+
+    def mouseReleaseEvent(self, event):
+        """Handle mouse release event to stop dragging."""
+        if event.button() == Qt.MouseButton.LeftButton:
+            self._is_dragging = False
+            event.accept()

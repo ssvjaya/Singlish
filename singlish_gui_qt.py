@@ -1,5 +1,6 @@
 import os
 import sys
+import json  # Import JSON for saving/loading preferences
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QLabel, QTextEdit,
     QPushButton, QMessageBox
@@ -9,6 +10,7 @@ from PyQt6.QtGui import QFont
 from singlish import transliterate
 from history_window import HistoryWindow  # Import the HistoryWindow class
 from PyQt6.QtGui import QIcon
+from styles import LIGHT_MODE_STYLE, DARK_MODE_STYLE  # Import styles
 
 def resource_path(relative_path):
     """Get the absolute path to a resource, works for both development and PyInstaller."""
@@ -27,8 +29,12 @@ def resource_path(relative_path):
     return path
 
 class TransliteratorGUI(QMainWindow):
+    CONFIG_FILE = "config.json"  # Configuration file to store user preferences
+
     def __init__(self):
         super().__init__()
+        # Load user preferences
+        self.dark_mode = self.load_theme_preference()
 
         self.setWindowTitle("Singlish Transliterator")
         self.setGeometry(100, 100, 800, 600)
@@ -46,7 +52,7 @@ class TransliteratorGUI(QMainWindow):
 
         # Custom title bar
         self.title_bar = QWidget()
-        self.title_bar.setFixedHeight(40)
+        self.title_bar.setFixedHeight(35)
         self.title_bar_layout = QHBoxLayout(self.title_bar)
         self.title_bar_layout.setContentsMargins(20, 2, 2, 2)
 
@@ -62,19 +68,19 @@ class TransliteratorGUI(QMainWindow):
         self.button_container.setSpacing(0)
 
         self.minimize_button = QPushButton("—")
-        self.minimize_button.setFixedSize(40, 35)
+        self.minimize_button.setFixedSize(40, 34)
         self.minimize_button.setObjectName("title_bar_button")
         self.minimize_button.clicked.connect(self.showMinimized)
         self.button_container.addWidget(self.minimize_button)
 
         self.maximize_button = QPushButton("🗖")
-        self.maximize_button.setFixedSize(40, 35)
+        self.maximize_button.setFixedSize(40, 34)
         self.maximize_button.setObjectName("title_bar_button")
         self.maximize_button.clicked.connect(self.handle_maximize_button)
         self.button_container.addWidget(self.maximize_button)
 
         self.close_button = QPushButton("⨉")
-        self.close_button.setFixedSize(40, 35)
+        self.close_button.setFixedSize(41, 34)
         self.close_button.setObjectName("title_bar_button_close")
         self.close_button.clicked.connect(self.close)
         self.button_container.addWidget(self.close_button)
@@ -86,7 +92,9 @@ class TransliteratorGUI(QMainWindow):
         self.main_widget = QWidget()
         self.main_layout = QVBoxLayout(self.main_widget)
         self.main_layout.setContentsMargins(20, 0, 20, 20)
+        self.main_layout.setObjectName("sub_widget_container")
         self.main_layout1.addWidget(self.main_widget)
+        
 
         # Enable dragging and double-click functionality for the custom title bar
         self.title_bar.mousePressEvent = self.start_drag
@@ -94,7 +102,6 @@ class TransliteratorGUI(QMainWindow):
         self.title_bar.mouseDoubleClickEvent = self.handle_title_bar_double_click  # Separate double-click event
 
         # Dark mode toggle using QPushButton with icons and text
-        self.dark_mode = False
         self.dark_mode_button = QPushButton(" Dark Mode")  # Add text to the button
         self.dark_mode_button.setFont(QFont("Arial", 11))  # Use Arial font
         self.dark_mode_button.setCheckable(True)
@@ -119,6 +126,9 @@ class TransliteratorGUI(QMainWindow):
         self.english_text.setFont(QFont("Arial", 12))  # Use Arial font
         self.english_text.textChanged.connect(self.update_text)
         self.main_layout.addWidget(self.english_text)
+
+        # Add a spacer to increase the space between the English and Sinhala text boxes
+        self.main_layout.addSpacing(10)  # Adjust the value to increase or decrease the space
 
         # Sinhala text output
         self.sinhala_label = QLabel("සිංහල අකුරු:")
@@ -163,8 +173,27 @@ class TransliteratorGUI(QMainWindow):
         # Initialize history list
         self.history = []
 
-        # Initial light mode styling
-        self.apply_light_mode()
+        # Apply initial styling (based on loaded preference)
+        self.apply_styling(self.dark_mode)
+
+    def load_theme_preference(self):
+        """Load the user's theme preference from the configuration file."""
+        if os.path.exists(self.CONFIG_FILE):
+            try:
+                with open(self.CONFIG_FILE, "r") as file:
+                    config = json.load(file)
+                    return config.get("dark_mode", False)  # Default to light mode if not set
+            except (json.JSONDecodeError, IOError):
+                print("Error loading configuration file. Defaulting to light mode.")
+        return False  # Default to light mode
+
+    def save_theme_preference(self):
+        """Save the user's theme preference to the configuration file."""
+        try:
+            with open(self.CONFIG_FILE, "w") as file:
+                json.dump({"dark_mode": self.dark_mode}, file)
+        except IOError:
+            print("Error saving configuration file.")
 
     def start_drag(self, event):
         """Start dragging the window when the left mouse button is pressed."""
@@ -183,123 +212,18 @@ class TransliteratorGUI(QMainWindow):
         if self.dark_mode:
             self.dark_mode_button.setIcon(self.dark_mode_on_icon)
             self.dark_mode_button.setText(" Dark Mode")  # Update text for light mode
-            self.apply_dark_mode()
         else:
             self.dark_mode_button.setIcon(self.dark_mode_off_icon)
             self.dark_mode_button.setText(" Dark Mode")  # Update text for dark mode
-            self.apply_light_mode()
+        self.apply_styling(self.dark_mode)  # Use apply_styling instead of apply_dark_mode/apply_light_mode
+        self.save_theme_preference()  # Save the updated preference
 
-    def apply_dark_mode(self):
-        self.setStyleSheet(f"""
-            QMainWindow {{ 
-                background-color: transparent; /* Fully transparent */
-            }}
-            QWidget#main_widget_container {{ 
-                background-color: #202020;
-                border-radius: 5px; /* Rounded corners */
-                border: 1px solid #444444;
-            }}
-            QWidget#title_bar {{ 
-                background-color: #202020;
-                border-top-left-radius: 5px; /* Rounded corners for the top */
-                border-top-right-radius: 5px;
-            }}
-            QLabel {{ color: white; }}
-            QTextEdit {{ 
-                background-color: #1E1E1E; /* Dark background for QTextEdit */
-                color: white; /* White text color */
-                border: 1px solid #444444; /* Optional border for QTextEdit */
-            }}
-            QPushButton {{ background-color: #444444; color: white; border: none; }}
-            QPushButton:hover {{ background-color: #0078D4; }}
-
-            QPushButton#dark_mode_button_checkbox {{ 
-                background-color: #202020;
-                color: white;
-                border: none;
-                text-align: left; /* Align text to the left */
-            }}
-            QPushButton#dark_mode_button_checkbox:hover {{ background-color: #202020; }}
-            
-            /* Specific styles for title bar buttons */
-            QPushButton#title_bar_button_close {{
-                background-color: #202020;
-                color: white;
-                border: none;
-                font-size: 14px;
-                border-top-right-radius: 5px;
-            }}
-
-            QPushButton#title_bar_button {{
-                background-color: #202020;
-                color: white;
-                border: none;
-                font-size: 14px;
-            }}
-            /* Specific hover for close button */
-            QPushButton#title_bar_button_close:hover {{
-                background-color: #F70000;
-            }}
-            QPushButton#title_bar_button:hover {{
-                background-color: #444444;
-            }}
-            QWidget#title_bar {{ background-color: #444444; }}
-        """)
-
-    def apply_light_mode(self):
-        self.setStyleSheet(f"""
-            QMainWindow {{ 
-                background-color: transparent; /* Fully transparent */
-            }}
-            QWidget#main_widget_container {{ 
-                background-color: #F3F3F3;
-                border-radius: 5px; /* Rounded corners */
-                border: 1px solid #CCCCCC;
-            }}
-            QWidget#title_bar {{ 
-                background-color: #F3F3F3;
-                border-top-left-radius: 5px; /* Rounded corners for the top */
-                border-top-right-radius: 5px;
-            }}
-            QLabel {{ color: black; }}
-            QTextEdit {{ 
-                background-color: white; /* Dark background for QTextEdit */
-                color: black; /* White text color */
-                border: 1px solid #444444; /* Optional border for QTextEdit */
-            }}
-            QPushButton {{ background-color: #E0E0E0; color: black; border: none; }}
-            QPushButton:hover {{ background-color: #C4C4C4; }}
-
-            QPushButton#dark_mode_button_checkbox {{
-                background-color: #F3F3F3; 
-                color: black; 
-                border: none; 
-                text-align: left; /* Align text to the left */
-            }}
-            QPushButton#dark_mode_button_checkbox:hover {{ background-color: #F3F3F3; }}
-
-            QPushButton#title_bar_button {{
-                background-color: #F3F3F3;
-                color: black;
-                border: none;
-                font-size: 14px;
-            }}
-            QPushButton#title_bar_button_close {{
-                background-color: #F3F3F3;
-                color: black;
-                border: none;
-                font-size: 14px;
-                border-top-right-radius: 5px;
-            }}
-            QPushButton#title_bar_button_close:hover {{
-                background-color: #F70000;
-            }}
-            /* Specific hover for close button */
-            QPushButton#title_bar_button:hover {{
-                background-color: #E0E0E0;
-            }}
-            QWidget#title_bar {{ background-color: #F3F3F3; }}
-        """)
+    def apply_styling(self, dark_mode):
+        """Apply light or dark mode styles."""
+        if dark_mode:
+            self.setStyleSheet(DARK_MODE_STYLE)
+        else:
+            self.setStyleSheet(LIGHT_MODE_STYLE)
 
     def update_text(self):
         english = self.english_text.toPlainText().strip()
@@ -422,6 +346,11 @@ Note: Use capital letters for special characters like 'A' for ඇ."""
     def show_history(self):
         history_window = HistoryWindow(self.history, self.dark_mode)
         history_window.show()  # Use show() instead of exec()
+
+    def closeEvent(self, event):
+        """Ensure the theme preference is saved when the application closes."""
+        self.save_theme_preference()
+        super().closeEvent(event)
 
 def main():
     app = QApplication([])

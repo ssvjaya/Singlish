@@ -11,10 +11,14 @@ class TransliteratorGUI:
         
         # Add performance optimization variables
         self.last_keypress = 0
-        self.debounce_delay = 0.3  # 300ms delay
+        # Reduce debounce delay for faster updates
+        self.debounce_delay = 0.1  # 100ms delay
         self.update_pending = False
         self.last_text = ""  # Store the last English text to avoid redundant updates
         self.update_job = None  # Store the ID of the scheduled update job
+        
+        # Add dark mode variable
+        self.dark_mode = tk.BooleanVar(value=False)
         
         # Configure style
         style = ttk.Style()
@@ -22,20 +26,26 @@ class TransliteratorGUI:
         style.configure('TButton', font=('Arial', 11))
         
         # Create main frame with padding
-        main_frame = ttk.Frame(root, padding="20")
-        main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        self.main_frame = ttk.Frame(root, padding="20")
+        self.main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
         
         # Configure grid weights
         root.columnconfigure(0, weight=1)
         root.rowconfigure(0, weight=1)
-        main_frame.columnconfigure(1, weight=1)
+        self.main_frame.columnconfigure(1, weight=1)
+        
+        # Add dark mode toggle checkbox
+        self.dark_mode_checkbox = ttk.Checkbutton(
+            self.main_frame, text="Dark Mode", variable=self.dark_mode, command=self.toggle_dark_mode
+        )
+        self.dark_mode_checkbox.grid(row=0, column=0, sticky=tk.W, pady=(0, 5))
         
         # Create guidance panel (initially hidden)
-        self.guidance_frame = ttk.LabelFrame(main_frame, text="Letter Guide", padding="10")
+        self.guidance_frame = ttk.LabelFrame(self.main_frame, text="Letter Guide", padding="10")
         self.guidance_visible = False
         
         # Create guidance content with performance optimizations
-        guidance_text = tk.Text(main_frame, height=10, width=40, font=('Arial', 11), wrap=tk.WORD)
+        guidance_text = tk.Text(self.main_frame, height=10, width=40, font=('Arial', 11), wrap=tk.WORD)
         guidance_text.insert("1.0", """Common Letter Mappings:
 
         Vowels:
@@ -55,16 +65,16 @@ class TransliteratorGUI:
         self.guidance_text = guidance_text
         
         # Add toggle button for guidance panel
-        self.toggle_btn = ttk.Button(main_frame, text="Show Guide", command=self.toggle_guidance)
+        self.toggle_btn = ttk.Button(self.main_frame, text="Show Guide", command=self.toggle_guidance)
         self.toggle_btn.grid(row=0, column=1, sticky=tk.E, pady=(0, 5))
         
         # Create labels
-        ttk.Label(main_frame, text="Type English Text:").grid(row=2, column=0, sticky=tk.W, pady=(0, 5))
-        ttk.Label(main_frame, text="සිංහල අකුරු:").grid(row=4, column=0, sticky=tk.W, pady=(10, 5))
+        ttk.Label(self.main_frame, text="Type English Text:").grid(row=2, column=0, sticky=tk.W, pady=(0, 5))
+        ttk.Label(self.main_frame, text="සිංහල අකුරු:").grid(row=4, column=0, sticky=tk.W, pady=(10, 5))
         
         # Create text areas with performance optimizations
         # English text area
-        english_frame = ttk.Frame(main_frame)
+        english_frame = ttk.Frame(self.main_frame)
         english_frame.grid(row=3, column=0, columnspan=2, sticky=(tk.W, tk.E))
         
         self.english_text = tk.Text(english_frame, height=8, width=60, font=('Arial', 12), wrap=tk.WORD)
@@ -75,7 +85,7 @@ class TransliteratorGUI:
         english_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         
         # Sinhala text area with optimizations
-        sinhala_frame = ttk.Frame(main_frame)
+        sinhala_frame = ttk.Frame(self.main_frame)
         sinhala_frame.grid(row=5, column=0, columnspan=2, sticky=(tk.W, tk.E))
         
         self.sinhala_text = tk.Text(sinhala_frame, height=8, width=60, font=('Iskoola Pota', 14), wrap=tk.WORD)
@@ -89,7 +99,7 @@ class TransliteratorGUI:
         self.sinhala_text.config(state='disabled')
         
         # Create buttons frame  
-        button_frame = ttk.Frame(main_frame)
+        button_frame = ttk.Frame(self.main_frame)
         button_frame.grid(row=6, column=0, columnspan=2, pady=20)
         
         # Add buttons
@@ -102,7 +112,7 @@ class TransliteratorGUI:
         
         # Add help text at the bottom
         help_text = "Type English letters to see Sinhala text. Use capital letters for special characters."
-        ttk.Label(main_frame, text=help_text, font=('Arial', 10, 'italic')).grid(
+        ttk.Label(self.main_frame, text=help_text, font=('Arial', 10, 'italic')).grid(
             row=7, column=0, columnspan=2, pady=(10, 0), sticky=tk.W
         )
         
@@ -124,7 +134,9 @@ class TransliteratorGUI:
         # Only update if the text has changed
         if english != self.last_text:
             self.last_text = english
-            sinhala = transliterate(english)
+            
+            # Optimize transliteration by handling empty input efficiently
+            sinhala = transliterate(english) if english else ""
             
             # Update Sinhala text area efficiently
             self.sinhala_text.config(state='normal')
@@ -162,6 +174,37 @@ class TransliteratorGUI:
             self.toggle_btn.config(text="Hide Guide")
             self.guidance_visible = True
 
+    def toggle_dark_mode(self):
+        """Toggle between light and dark mode"""
+        if self.dark_mode.get():
+            # Apply dark mode
+            self.root.configure(bg="#2E2E2E")  # Dark background for the title bar
+            self.main_frame.configure(style="Dark.TFrame")  # Dark background for the body
+            self.dark_mode_checkbox.configure(style="Dark.TCheckbutton")
+            self.toggle_btn.configure(style="Dark.TButton")
+            self.sinhala_text.configure(bg="#1E1E1E", fg="white", insertbackground="white")
+            self.english_text.configure(bg="#1E1E1E", fg="white", insertbackground="white")
+            self.guidance_text.configure(bg="#1E1E1E", fg="white")
+            for widget in self.main_frame.winfo_children():
+                if isinstance(widget, ttk.Label):
+                    widget.configure(style="Dark.TLabel")
+                elif isinstance(widget, ttk.Button):
+                    widget.configure(style="Dark.TButton")
+        else:
+            # Revert to light mode
+            self.root.configure(bg="SystemButtonFace")  # Default background
+            self.main_frame.configure(style="TFrame")  # Default background for the body
+            self.dark_mode_checkbox.configure(style="TCheckbutton")
+            self.toggle_btn.configure(style="TButton")
+            self.sinhala_text.configure(bg="white", fg="black", insertbackground="black")
+            self.english_text.configure(bg="white", fg="black", insertbackground="black")
+            self.guidance_text.configure(bg="SystemButtonFace", fg="black")
+            for widget in self.main_frame.winfo_children():
+                if isinstance(widget, ttk.Label):
+                    widget.configure(style="TLabel")
+                elif isinstance(widget, ttk.Button):
+                    widget.configure(style="TButton")
+    
     def show_help(self):
         """Show help information"""
         help_text = """How to use the Sinhala Transliterator:
