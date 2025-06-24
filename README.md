@@ -1,6 +1,6 @@
 # Singlish - Sinhala Unicode Typing Software for Windows
 
-**Latest Version**: SinglishSetup 1.93.exe
+**Latest Version**: SinglishSetup 2.05.exe
 
 ## Overview
 Singlish is a Sinhala Unicode typing software designed for Windows, enabling users to type in Sinhala effortlessly using an intuitive transliteration approach. Built with **PyQt6**, Singlish provides a modern, user-friendly interface with features like **Dark Mode** and **Typing History** for a seamless and comfortable typing experience.
