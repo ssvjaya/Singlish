@@ -108,17 +108,17 @@ class TransliteratorGUI(QMainWindow):
         self.dark_mode_button.setFixedSize(120, 40)  # Adjust size to fit text and icon
         self.dark_mode_button.setObjectName("dark_mode_button_checkbox")  # Set the correct ObjectName
 
-        # Load icons for dark mode toggle
-        self.dark_mode_on_icon = QIcon(resource_path("resources/check-focus.png"))
-        self.dark_mode_off_icon = QIcon(resource_path("resources/check-unsel-dis.png"))
-        self.dark_mode_button.setIcon(self.dark_mode_off_icon)
-        self.dark_mode_button.setIconSize(self.dark_mode_button.size() - QSize(80, 20))  # Adjust icon size
+        #Load icons for dark mode toggle
+        # self.dark_mode_on_icon = QIcon(resource_path("resources/check-focus.png"))
+        # self.dark_mode_off_icon = QIcon(resource_path("resources/check-unsel-dis.png"))
+        # self.dark_mode_button.setIcon(self.dark_mode_off_icon)
+        # self.dark_mode_button.setIconSize(self.dark_mode_button.size() - QSize(80, 20))  # Adjust icon size
 
         self.dark_mode_button.clicked.connect(self.toggle_dark_mode)
         self.main_layout.addWidget(self.dark_mode_button, alignment=Qt.AlignmentFlag.AlignLeft)
 
         # English text input
-        self.english_label = QLabel("Type English Text:")
+        self.english_label = QLabel("Type English Text")
         self.english_label.setFont(QFont("Arial", 12))  # Use Arial font
         self.main_layout.addWidget(self.english_label)
 
@@ -126,14 +126,17 @@ class TransliteratorGUI(QMainWindow):
         self.english_text.setFont(QFont("Arial", 12))  # Use Arial font
         self.english_text.textChanged.connect(self.update_text)
         self.main_layout.addWidget(self.english_text)
+        self.english_label.setMinimumSize(0, 20)  # Set a minimum height for the label
+
 
         # Add a spacer to increase the space between the English and Sinhala text boxes
         self.main_layout.addSpacing(10)  # Adjust the value to increase or decrease the space
 
         # Sinhala text output
-        self.sinhala_label = QLabel("සිංහල අකුරු:")
-        self.sinhala_label.setFont(QFont("Arial", 12))  # Use Arial font
+        self.sinhala_label = QLabel("සිංහල අකුරු")
+        self.sinhala_label.setFont(QFont("Arial", 11))  # Use Arial font
         self.main_layout.addWidget(self.sinhala_label)
+        self.sinhala_label.setMinimumSize(0, 20)  # Set a minimum height for the label
 
         self.sinhala_text = QTextEdit()
         self.sinhala_text.setFont(QFont("Iskoola Pota", 14))
@@ -210,10 +213,10 @@ class TransliteratorGUI(QMainWindow):
     def toggle_dark_mode(self):
         self.dark_mode = not self.dark_mode
         if self.dark_mode:
-            self.dark_mode_button.setIcon(self.dark_mode_on_icon)
+            # self.dark_mode_button.setIcon(self.dark_mode_on_icon)
             self.dark_mode_button.setText(" Dark Mode")  # Update text for light mode
         else:
-            self.dark_mode_button.setIcon(self.dark_mode_off_icon)
+            # self.dark_mode_button.setIcon(self.dark_mode_off_icon)
             self.dark_mode_button.setText(" Dark Mode")  # Update text for dark mode
         self.apply_styling(self.dark_mode)  # Use apply_styling instead of apply_dark_mode/apply_light_mode
         self.save_theme_preference()  # Save the updated preference
@@ -271,34 +274,44 @@ class TransliteratorGUI(QMainWindow):
         QTimer.singleShot(2000, popup.deleteLater)
 
     def show_help(self):
-        help_text = """How to use the Sinhala Transliterator:
+        help_text = """How to use the Sinhala Transliterator:<br><br>
+1. Type or paste English text in the top box.<br><br>
 
-1. Basic vowels:
-   - a -> අ, aa -> ආ, A -> ඇ, Ae -> ඈ
-   - i -> ඉ, ii -> ඊ
-   - u -> උ, uu -> ඌ
-   - e -> එ, ee -> ඒ
-   - o -> ඔ, oo -> ඕ
-
-2. Consonants:
-   - k -> ක්, g -> ග්, ch -> ච්
-   - t -> ට්, d -> ඩ්
-   - n -> න්, p -> ප්, b -> බ්
-   - m -> ම්, y -> ය්, r -> ර්
-   - l -> ල්, w/v -> ව්, s -> ස්
-
-3. Special combinations:
-   - Type 'ga' for ග, 'gi' for ගි
-   - Type 'ma' for ම, 'mi' for මි
-   - Type 'nda' for ඳ, 'mba' for ඹ
-
-Note: Use capital letters for special characters like 'A' for ඇ."""
+2. Basic vowels:<br>
+   - a -> අ, aa -> ආ, A / ae -> ඇ, Ae / aea -> ඈ<br>
+   - i -> ඉ, ii / ie -> ඊ<br>
+   - u -> උ, uu -> ඌ<br>
+   - e -> එ, ea -> ඒ<br>
+   - o -> ඔ, oe -> ඕ<br>
+<br>
+3. Consonants:<br>
+   - k -> ක්, g -> ග්, ch -> ච්<br>
+   - t -> ට්, d -> ඩ්<br>
+   - n -> න්, p -> ප්, b -> බ්<br>
+   - m -> ම්, y -> ය්, r -> ර්<br>
+   - l -> ල්, w/v -> ව්, s -> ස්<br>
+<br>
+4. Special combinations:<br>
+   - Type 'ga' for ග, 'gi' for ගි<br>
+   - Type 'ma' for ම, 'mi' for මි<br>
+   - Type 'nndha' for ඳ, 'Ba' for ඹ<br>
+<br>
+Note: Use capital letters for special characters like 'A' for ඇ.<br>
+<br>
+For the full Transliteration Scheme, click this links<br><br>
+<a href="https://raw.githubusercontent.com/ssvjaya/Singlish/939ebf327a403105a7e6c841de903936d8ab19c9/resources/Transliteration/Transliteration%20Scheme_1.png" style="color:#1a73e8;">Transliteration Map 1</a><br>
+<br>
+<a href="https://raw.githubusercontent.com/ssvjaya/Singlish/939ebf327a403105a7e6c841de903936d8ab19c9/resources/Transliteration/Transliteration%20Scheme_2.png" style="color:#1a73e8;">Transliteration Map 2</a>
+"""
         self.show_message("Help", help_text)
 
     def show_message(self, title, text):
         msg_box = QMessageBox(self)
         msg_box.setWindowTitle(title)
+        msg_box.setTextFormat(Qt.TextFormat.RichText)  # Enable rich text for clickable links
         msg_box.setText(text)
+        msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
+        msg_box.setTextInteractionFlags(Qt.TextInteractionFlag.TextBrowserInteraction)
         if self.dark_mode:
             msg_box.setStyleSheet("""
                 QMessageBox {
@@ -311,6 +324,7 @@ Note: Use capital letters for special characters like 'A' for ඇ."""
                 QPushButton:hover {
                     background-color: #555555;
                 }
+                a { color: #8ab4f8; }
             """)
         else:
             msg_box.setStyleSheet("""
@@ -324,6 +338,7 @@ Note: Use capital letters for special characters like 'A' for ඇ."""
                 QPushButton:hover {
                     background-color: #D0D0D0;
                 }
+                a { color: #1a73e8; }
             """)
         msg_box.exec()
 

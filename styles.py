@@ -44,6 +44,10 @@ QPushButton#dark_mode_button_checkbox {
     color: black; 
     border: none; 
     text-align: left; 
+    background-image: url("resources/check-unsel-dis.png"); /* Load the check-unsel-dis.png icon */
+    background-repeat: no-repeat;
+    background-position: left center; /* Position the icon to the left center */
+    padding-left: 24px; /* Add padding to make space for the icon */
 }
 QPushButton#dark_mode_button_checkbox:hover { background-color: #F3F3F3; }
 QPushButton#title_bar_button {
@@ -108,6 +112,10 @@ QPushButton#dark_mode_button_checkbox {
     color: white;
     border: none;
     text-align: left; 
+    background-image: url("resources/check-focus.png"); /* Load the check-focus.png icon */
+    background-repeat: no-repeat;
+    background-position: left center; /* Position the icon to the left center */
+    padding-left: 24px; /* Add padding to make space for the icon */
 }
 QPushButton#dark_mode_button_checkbox:hover { background-color: #202020; }
 QPushButton#title_bar_button_close {
