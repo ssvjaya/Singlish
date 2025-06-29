@@ -34,6 +34,11 @@ Singlish is a Sinhala Unicode typing software designed for Windows, enabling use
 ## Development
 Singlish is written entirely in **Python** using the **PyQt6** framework.
 
+Install PyQt6
+   ```bash
+     pip install pyqt6
+   ```
+
 ### Getting Started
 To run or contribute to the project:
 
