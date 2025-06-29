@@ -1,6 +1,7 @@
 # Singlish - Sinhala Unicode Typing Software for Windows
 
 **Latest Version**: SinglishSetup 2.05.exe
+
 After the first time install, "Run as an Administrator". If not, the "Dark mode memory" and "History" will not work properly. 
 
 ## Overview
