@@ -1,6 +1,6 @@
 # Singlish - Sinhala Unicode Typing Software for Windows
 
-**Latest Version**: SinglishSetup 2.05.exe
+**Latest Version**: SinglishSetup 2.07.exe
 
 https://raw.githubusercontent.com/ssvjaya/Singlish/refs/heads/main/SinglishSetup%202.05.exe
 
@@ -16,7 +16,7 @@ Singlish is a Sinhala Unicode typing software designed for Windows, enabling use
 - **Lightweight and Fast**: Optimized for performance.
 
 ## Installation
-1. Download the latest version: [SinglishSetup 1.93.exe](https://github.com/ssvjaya/Singlish/releases).
+1. Download the latest version: [SinglishSetup 2.07.exe](https://github.com/ssvjaya/Singlish/releases).
 2. Open the downloaded `.exe` file to start the installation.
 3. Follow the on-screen instructions to complete the setup.
 
