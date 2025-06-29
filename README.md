@@ -2,6 +2,8 @@
 
 **Latest Version**: SinglishSetup 2.05.exe
 
+https://raw.githubusercontent.com/ssvjaya/Singlish/refs/heads/main/SinglishSetup%202.05.exe
+
 After the first time install, "Run as an Administrator". If not, the "Dark mode memory" and "History" will not work properly. 
 
 ## Overview
