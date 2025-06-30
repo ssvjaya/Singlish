@@ -1,5 +1,5 @@
 [Setup]
-AppName=Singlish
+AppName=SinglishQt
 AppVersion=2.07
 DefaultDirName={commonpf}\SinglishQt
 DefaultGroupName=Singlish
