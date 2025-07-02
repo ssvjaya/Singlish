@@ -54,17 +54,22 @@ To run or contribute to the project:
   ```bash
     python singlish_gui_qt.py
   ```
+#### 4. Build the application:
+  ```bash
+    python .\build_app.py
+  ```
+
 ## Contributing
 We welcome contributions to improve Singlish! To contribute:
 
 1. Fork the repository.
 2. Make your changes and submit a pull request.
-3. For major changes, please open an issue to discuss your ideas first.
+3. For major changes, kindly open an issue first to start a discussion.
 
 ## License
 This project is licensed under the GNU General Public License v3.0 – see the [LICENSE](./LICENSE.txt) file for details.
 
 ## Contact
-- **Author**: ssvjaya
+- **Author**: [ssvjaya on GitHub](https://github.com/ssvjaya)
 - **Project Repository**: [Singlish on GitHub](https://github.com/ssvjaya/Singlish)
   
