@@ -313,6 +313,10 @@ class TransliteratorGUI(QMainWindow):
 <br>
 Note: Use capital letters for special characters like 'A' for ඇ.<br>
 <br>
+<br>
+For English letters<br>
+    - Type '//A' for A, '//a' for a<br>
+<br>
 For the full Transliteration Scheme, click this links<br><br>
 <a href="https://raw.githubusercontent.com/ssvjaya/Singlish/939ebf327a403105a7e6c841de903936d8ab19c9/resources/Transliteration/Transliteration%20Scheme_1.png" style="color:#1a73e8;">Transliteration Map 1</a><br>
 <br>
